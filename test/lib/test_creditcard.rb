@@ -50,45 +50,45 @@ class TestCreditCard < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_logo_attribute
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.logo = nil
     assert subject.invalid? && subject.errors[:logo].present?,
       'should be invalid without a logo'
   end
 
   def test_owner_birthday_accepts_string_version_of_dates
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_birthday = '20/12/1980'
     assert_equal Date.new(1980, 12, 20), subject.owner_birthday
   end
 
   def test_owner_birthday_accepts_input_of_invalid_dates
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_birthday = '50/12/1980'
     assert_equal '50/12/1980', subject.owner_birthday
   end
 
   def test_validate_format_of_birthday_date
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_birthday = '50/12/1980'
     assert subject.invalid? && subject.errors[:owner_birthday].present?,
       'should be valid'
   end
 
   def test_validate_presence_of_security_code_attribute
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.security_code = nil
     assert subject.invalid? && subject.errors[:security_code].present?,
       'should be invalid without an security_code'
   end
 
   def test_accept_nil_owner_phone
-    subject = Fixture.credit_card(owner_phone: nil)
+    subject = MyMoip::Fixture.credit_card(owner_phone: nil)
     assert subject.valid?, 'should be valid'
   end
 
   def test_validate_length_of_owner_phone_attribute_in_10_or_11_chars
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_phone = '5130405060'
     assert subject.valid?, 'should accept 10 chars'
     subject.owner_phone = '51930405060'
@@ -99,7 +99,7 @@ class TestCreditCard < Test::Unit::TestCase
   end
 
   def test_perform_extra_validation
-    subject = Fixture.credit_card({
+    subject = MyMoip::Fixture.credit_card({
       card_number: nil,
       expiration_date: nil,
       owner_name: nil,
@@ -116,13 +116,13 @@ class TestCreditCard < Test::Unit::TestCase
   end
 
   def test_remove_left_zeros_from_owner_phone
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_phone = '05130405060'
     assert_equal '5130405060', subject.owner_phone
   end
 
   def test_remove_dashes_from_owner_phone
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_phone = '513040-5060'
     assert_equal '5130405060', subject.owner_phone
     subject.owner_phone = '5193040-5060'
@@ -130,7 +130,7 @@ class TestCreditCard < Test::Unit::TestCase
   end
 
   def test_remove_parenthesis_from_owner_phone
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_phone = '(51)30405060'
     assert_equal '5130405060', subject.owner_phone
     subject.owner_phone = '(51)930405060'
@@ -138,69 +138,69 @@ class TestCreditCard < Test::Unit::TestCase
   end
 
   def test_remove_dashes_from_owner_cpf
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_cpf = '522116706-95'
     assert_equal '52211670695', subject.owner_cpf
   end
 
   def test_remove_dots_from_owner_cpf
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.owner_cpf = '522.116.70695'
     assert_equal '52211670695', subject.owner_cpf
   end
 
   def test_accept_nil_owner_cpf
-    subject = Fixture.credit_card(owner_cpf: nil)
+    subject = MyMoip::Fixture.credit_card(owner_cpf: nil)
     assert subject.valid?, 'should be valid'
   end
 
   def test_warns_about_owner_rg_attribute_deprecation_on_initialization
     MyMoip::CreditCard.any_instance.expects(:warn).with(regexp_matches(/is deprecated/))
-    subject = Fixture.credit_card(owner_rg: '1010202030')
+    subject = MyMoip::Fixture.credit_card(owner_rg: '1010202030')
   end
 
   def test_warns_about_owner_rg_attribute_deprecation_on_setter
-    subject = Fixture.credit_card
+    subject = MyMoip::Fixture.credit_card
     subject.expects(:warn).with(regexp_matches(/is deprecated/))
     subject.owner_rg = '1010202030'
   end
 
   def test_accepts_security_codes_of_3_digits
-    subject = Fixture.credit_card(security_code: "180")
+    subject = MyMoip::Fixture.credit_card(security_code: "180")
     assert subject.valid?, 'should be valid'
   end
 
   def test_accepts_security_codes_of_4_digits
-    subject = Fixture.credit_card(security_code: "1809")
+    subject = MyMoip::Fixture.credit_card(security_code: "1809")
     assert subject.valid?, 'should be valid'
   end
 
   def test_dont_accept_security_codes_of_neither_3_or_4_digits
-    subject = Fixture.credit_card(security_code: "1")
+    subject = MyMoip::Fixture.credit_card(security_code: "1")
     assert subject.invalid? && subject.errors[:security_code].present?, 'should not be valid'
   end
 
   def test_validate_format_of_expiration_date
-    subject = Fixture.credit_card(expiration_date: "12/2018")
+    subject = MyMoip::Fixture.credit_card(expiration_date: "12/2018")
     assert subject.invalid? && subject.errors[:expiration_date].present?, 'should not accept other formats'
-    subject = Fixture.credit_card(expiration_date: "12/18")
+    subject = MyMoip::Fixture.credit_card(expiration_date: "12/18")
     assert subject.valid? && subject.errors[:expiration_date].empty?, 'should accept "%m/%y" format'
   end
 
   def test_converts_creditcard_string_logos_to_symbol
-    subject = Fixture.credit_card(logo: "visa")
+    subject = MyMoip::Fixture.credit_card(logo: "visa")
     assert_equal :visa, subject.logo
   end
 
   def test_accepts_any_creditcard_from_available_logos_constant
     MyMoip::CreditCard::AVAILABLE_LOGOS.each do |logo|
-      subject = Fixture.credit_card(logo: logo)
+      subject = MyMoip::Fixture.credit_card(logo: logo)
       assert subject.valid?, 'should be valid'
     end
   end
 
   def test_dont_accept_logos_out_of_available_logos_constant
-    subject = Fixture.credit_card(logo: :unavailable_card)
+    subject = MyMoip::Fixture.credit_card(logo: :unavailable_card)
     assert subject.invalid? && subject.errors[:logo].present?, 'should not be valid'
   end
 end

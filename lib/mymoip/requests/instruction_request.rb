@@ -21,7 +21,7 @@ module MyMoip
     end
 
     def success?
-      @response && @response["ConsultarTokenResponse"]["RespostaConsultar"]["Status"] == 'Sucesso'
+      @response.present? && @response["ConsultarTokenResponse"]["RespostaConsultar"]["Status"] == 'Sucesso'
     end
 
     def result
@@ -77,7 +77,7 @@ module MyMoip
     end
 
     def payment
-      last_payment
+      InstructionRequest.last_payment(result["Pagamento"])
     end
 
     def installments
@@ -92,22 +92,14 @@ module MyMoip
       payment['Cartao']
     end
 
-    private
-
-    def last_payment
-      payment_result = nil
-      payment = result["Pagamento"]
-      if payment.kind_of?(Hash)
-        payment_result = payment
+    def self.last_payment(result_payment)
+      if result_payment.kind_of?(Hash)
+        result_payment
       else
-        payment_result = payment.first
-        payment.each do |r|
-          payment_date = DateTime.parse(r["Data"])
-          payment_result = r if payment_date > self.date
+        result_payment.max_by do |installment|
+          DateTime.parse(installment["Data"])
         end
       end
-      payment_result
     end
-
   end
 end

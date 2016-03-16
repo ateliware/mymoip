@@ -56,7 +56,7 @@ class TestTransparentRequest < Test::Unit::TestCase
   def test_should_provide_the_transaction_id_get_by_the_request
     request = MyMoip::TransparentRequest.new("some_id")
     VCR.use_cassette('transparent_request') do
-      request.api_call(Fixture.instruction(payer: Fixture.payer))
+      request.api_call(MyMoip::Fixture.instruction(payer: MyMoip::Fixture.payer))
     end
     assert_equal "201210171118501100000001102691", request.id
   end
@@ -64,7 +64,7 @@ class TestTransparentRequest < Test::Unit::TestCase
   def test_should_provide_the_transaction_id_get_by_the_request_with_commissions_feature
     request = MyMoip::TransparentRequest.new("some_id")
     VCR.use_cassette('transparent_request_with_commissions') do
-      request.api_call Fixture.instruction(commissions: [Fixture.commission])
+      request.api_call MyMoip::Fixture.instruction(commissions: [MyMoip::Fixture.commission])
     end
     assert_equal "YOUR_REQUEST_ID", request.id
   end

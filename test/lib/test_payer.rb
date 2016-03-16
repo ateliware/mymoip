@@ -62,7 +62,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_id_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.id = nil
     assert subject.invalid?, 'should be invalid without an id'
     subject.id = ''
@@ -70,7 +70,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_name_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.name = nil
     assert subject.invalid?, 'should be invalid without an name'
     subject.name = ''
@@ -78,7 +78,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_email_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.email = nil
     assert subject.invalid?, 'should be invalid without an email'
     subject.email = ''
@@ -86,7 +86,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_address_street_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_street = nil
     assert subject.invalid?, 'should be invalid without an address_street'
     subject.address_street = ''
@@ -94,7 +94,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_address_street_number_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_street_number = nil
     assert subject.invalid?, 'should be invalid without an address_street_number'
     subject.address_street_number = ''
@@ -102,7 +102,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_address_neighbourhood_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_neighbourhood = nil
     assert subject.invalid?, 'should be invalid without an address_neighbourhood'
     subject.address_neighbourhood = ''
@@ -110,7 +110,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_address_city_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_city = nil
     assert subject.invalid?, 'should be invalid without an address_city'
     subject.address_city = ''
@@ -118,7 +118,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_presence_of_address_state_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_state = nil
     assert subject.invalid?, 'should be invalid without an address_state'
     subject.address_state = ''
@@ -126,7 +126,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_length_of_address_state_attribute_in_2_chars
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_state = 'RS'
     assert subject.valid?, 'should accept 2 chars'
     subject.address_state = 'RSS'
@@ -135,13 +135,13 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_upcase_assigned_address_state
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_state = 'rs'
     assert_equal 'RS', subject.address_state
   end
 
   def test_validate_presence_of_address_country_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_country = nil
     assert subject.invalid?, 'should be invalid without an address_country'
     subject.address_country = ''
@@ -149,7 +149,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_length_of_address_country_attribute_in_3_chars
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_country = 'BRA'
     assert subject.valid?, 'should accept 3 chars'
     subject.address_country = 'BR'
@@ -158,13 +158,13 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_upcase_assigned_address_country
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_country = 'bra'
     assert_equal 'BRA', subject.address_country
   end
 
   def test_validate_presence_of_address_cep_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_cep = nil
     assert subject.invalid?, 'should be invalid without an address_cep'
     subject.address_cep = ''
@@ -172,7 +172,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_length_of_address_cep_attribute_in_2_chars
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_cep = '92123456'
     assert subject.valid?, 'should accept 8 chars'
     subject.address_cep = '921234560000'
@@ -181,19 +181,19 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_dont_count_dashes_in_the_address_cep_length_validation
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_cep = '92123-456'
     assert subject.valid?
   end
 
   def test_remove_dashes_from_address_cep
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_cep = '92123-456'
     assert_equal '92123456', subject.address_cep
   end
 
   def test_validate_presence_of_address_phone_attribute
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_phone = nil
     assert subject.invalid?, 'should be invalid without an address_phone'
     subject.address_phone = ''
@@ -201,7 +201,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_validate_length_of_address_phone_attribute_in_10_or_11_chars
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_phone = '5130405060'
     assert subject.valid?, 'should accept 10 chars'
     subject.address_phone = '51930405060'
@@ -212,13 +212,13 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_remove_left_zeros_from_address_phone
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_phone = '05130405060'
     assert_equal '5130405060', subject.address_phone
   end
 
   def test_remove_dashes_from_address_phone
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_phone = '513040-5060'
     assert_equal '5130405060', subject.address_phone
     subject.address_phone = '5193040-5060'
@@ -226,7 +226,7 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_remove_parenthesis_from_address_phone
-    subject = Fixture.payer
+    subject = MyMoip::Fixture.payer
     subject.address_phone = '(51)30405060'
     assert_equal '5130405060', subject.address_phone
     subject.address_phone = '(51)930405060'
@@ -234,14 +234,14 @@ class TestPayer < Test::Unit::TestCase
   end
 
   def test_to_xml_method_uses_the_formatted_version_of_the_address_cep
-    subject = Fixture.payer(address_cep: '92000123')
+    subject = MyMoip::Fixture.payer(address_cep: '92000123')
     formatter = stub_everything('formatter')
     formatter.expects(:cep).with('92000123')
     subject.to_xml(nil, formatter)
   end
 
   def test_to_xml_method_uses_the_formatted_version_of_the_address_phone
-    subject = Fixture.payer(address_phone: '5130405060')
+    subject = MyMoip::Fixture.payer(address_phone: '5130405060')
     formatter = stub_everything('formatter')
     formatter.expects(:phone).with('5130405060')
     subject.to_xml(nil, formatter)
